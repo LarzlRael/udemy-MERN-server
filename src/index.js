@@ -1,14 +1,17 @@
 const express = require('express');
-
+const conectarDB = require('./config/db');
 // crear el servidor
 const app = express();
+
+// conectar a la base de datos
+conectarDB();
 
 // puerto de la app
 const PORT = process.env.PORT || 4000;
 
 //Definir las rutas
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send('hola mudno xd')
 })
 
