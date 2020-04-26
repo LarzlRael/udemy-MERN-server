@@ -17,7 +17,8 @@ exports.autenticarUsuario = async (req, res) => {
     }
 
     //? extraer el emaily password
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+    email = email.toLowerCase();
     try {
         //? revisar que sea un usuario registrado
         let usuario = await UserModel.findOne({ email });
