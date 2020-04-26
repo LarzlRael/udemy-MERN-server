@@ -11,11 +11,10 @@ const UserModel = require('../models/UsuarioModel')
 exports.autenticarUsuario = async (req, res) => {
     //? revisar si hay errores 
     const errors = validationResult(req);
-    //? revisar si hay errores
+    // //? revisar si hay errores
     if (!errors.isEmpty()) {
         return res.status(400).json({ errores: errors.array() });
     }
-
 
     //? extraer el emaily password
     const { email, password } = req.body;
@@ -23,14 +22,16 @@ exports.autenticarUsuario = async (req, res) => {
         //? revisar que sea un usuario registrado
         let usuario = await UserModel.findOne({ email });
         if (!usuario) {
-            res.status(400).json({ mgs: 'El usuario no existe' })
+            console.log('no se encontro usuario ');
+            return res.status(400).json({ msg: 'El usuario no existe' })
         }
         //?Revisar su password
         const passCorrect = await bcryptjs.compare(password, usuario.password);
         if (!passCorrect) {
+            console.log('contraseña incorrecta')
             return res.status(400).json({ msg: 'Password Incorrecto' })
         }
-        //? si todo es correcto, creramos el jwt
+        //? si todo es correcto, creamos el jwt
 
         const payload = {
             usuario: {
@@ -42,14 +43,23 @@ exports.autenticarUsuario = async (req, res) => {
             expiresIn: 3600
         }, (error, token) => {
             if (error) throw error;
-            //mensje de confirmacion
+            //mensaje de confirmacion
             res.json({ token })
         });
 
-
-
     } catch (error) {
         console.log('hubo un error');
-        res.json({ mesage: error })
+        return res.status(500).json({ msg: error });
+    }
+}
+
+//? OBtiene que usuario esta autenticado
+exports.usuarioAutenticado = async (req, res) => {
+    try {
+        const usuario = await UserModel.findById(req.usuario.id).select('-password');
+        res.json({ usuario });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Hubo un error' });
     }
 }

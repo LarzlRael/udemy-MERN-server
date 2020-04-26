@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 //? modulo para ver su esta auntenticado
-const auth = require('../middlewares/auth')
+const auth = require('../middlewares/auth');
 //? librearia para poder validar 
 const { check } = require('express-validator');
 const proyectoAuth = require('../controllers/proyectoController');
