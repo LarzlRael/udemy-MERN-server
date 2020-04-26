@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 //? conexion a la base de datos mongodb
 const conectarDB = require('./config/db');
 
@@ -21,7 +21,7 @@ app.use(cors());
 const PORT = process.env.PORT || 4000;
 
 //?midelwares
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
