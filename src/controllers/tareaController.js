@@ -75,6 +75,7 @@ exports.actualizarTarea = async (req, res) => {
 
         // ?Crear un objeto con la nueva informacion
         const nuevaTarea = {};
+
         nuevaTarea.nombre = nombre;
         nuevaTarea.estado = estado;
 
@@ -95,7 +96,7 @@ exports.eliminarTarea = async (req, res) => {
     try {
         //? extraer el proyeco y comprobar su existe
         const { proyecto } = req.query;
-
+        console.log(proyecto)
         //= si la tarea exisite o no
         const tareaExiste = await TareaModel.findById(req.params.id);
         if (!tareaExiste) {
